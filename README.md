@@ -1,1 +1,1 @@
-# Randomness for Randomness Testing
+# Randomness test of Sequences
