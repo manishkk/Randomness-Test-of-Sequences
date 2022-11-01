@@ -5,6 +5,28 @@ let uniform = 0;
 let nonuniform =0;
 
 
+//Type 0: Uniformly random sequences – the probability of each bit being 0 or 1, independently of all other bits, is P(0) = P(1) = 0.5
+//pick bits periodcally
+/*const generateRandomStringOfLength = (strLength) => {
+    let str = '';
+    let new_str = '';
+    let num;
+
+    // keep generating and adding random binary string until desired string length reached
+    while (strLength > str.length) {
+
+
+        num = Math.random() > 0.5 ? 1 : 0;
+        str = str + num;
+        if (str.length % 5 === 0){
+            new_str = new_str + num;
+            //console.log("strLength", str.length);
+        }
+
+    }
+    return new_str;
+};*/
+
 //Type 1: Uniformly random sequences – the probability of each bit being 0 or 1, independently of all other bits, is P(0) = P(1) = 0.5
   /*const generateRandomStringOfLength = (strLength) => {
         let str = '';
@@ -105,7 +127,7 @@ let nonuniform =0;
 
 
 //Type 5:
- const generateRandomStringOfLength = (strLength) => {
+ /*const generateRandomStringOfLength = (strLength) => {
         let str = '';
         let num;
 
@@ -127,7 +149,42 @@ let nonuniform =0;
 
         }
         return str;
-    };
+    };*/
+
+//read from file
+/*const generateRandomStringOfLength = (strLength) => {
+    let str = '';
+    let hstr = '';
+    const fs = require("fs");
+    const buffer = fs.readFileSync("DBSeq20.txt");
+    str = buffer.toString();
+
+    //p represent the gap between sequence
+    for(let p = 0; p < str.length; p+=1) {
+            hstr += str.substr(p,1);
+            hstr += Math.random() > 0.5 ? '1' : '0';
+        }
+
+    //console.log('Harvested Sequences', hstr);
+    return hstr;
+}*/
+
+
+// concatenation of two DB sequences
+const generateRandomStringOfLength = (strLength) => {
+    let str = '';
+    let hstr = '';
+    const fs = require("fs");
+    const buffer = fs.readFileSync("DBSeq20.txt");
+    str = buffer.toString();
+
+    hstr =str; //make copy
+
+    str = str.concat(hstr.substr(0,100));
+    str = str.concat(hstr.substr(101,str.length));
+
+    return str;
+};
 
 
 const findCombinations = (binaryString, blockLength, randomBlockCount) => {
@@ -194,7 +251,7 @@ const findCombinations = (binaryString, blockLength, randomBlockCount) => {
  return numOfUniqueCombinations;
 };
 
-const n = 5; // works fast enough untill n=7
+const n = 6; // works fast enough untill n=7
 const STRING_LENGTH = Math.pow(10, n);
 const l = 5;
 const eps = 0.1;
@@ -216,5 +273,6 @@ console.log('Error Parameter:', eps);
 console.log('Threshold:', threshold);
 
 console.log(`Random binary string:`, randomString); // do not print after n=7
+//console.log('Harvested Sequences', hstr);
 console.log('Uniform:', uniform);
 console.log('Non-Uniform:', nonuniform);
